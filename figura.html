@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>figura</title>
+</head>
+<body>
+    <script src="three.js"></script>
+    <script>
+        console.log(THREE);
+        
+        var WIDTH = window.innerWidth;
+var HEIGHT = window.innerHeight;
+
+var renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(WIDTH, HEIGHT);
+renderer.setClearColor(0xDDDDDD, 1);
+document.body.appendChild(renderer.domElement);
+
+var scene = new THREE.Scene();
+
+var camera = new THREE.PerspectiveCamera(70, WIDTH/HEIGHT, 0.1, 10000);
+camera.position.z = 30;
+scene.add(camera);
+
+var torusGeometry = new THREE.TorusGeometry(7, 1, 8, 12);
+var phongMaterial = new THREE.MeshPhongMaterial({color: 0xFF9500});
+var torus = new THREE.Mesh(torusGeometry, phongMaterial);
+torus.position.x = -25;
+scene.add(torus);
+
+var strangeGeometry = new THREE.DodecahedronGeometry(7);
+var lambertMaterial = new THREE.MeshLambertMaterial({color: 0xEAEFF2});
+var dodecahedron = new THREE.Mesh(strangeGeometry, lambertMaterial);
+dodecahedron.position.x = 25;
+scene.add(dodecahedron);
+
+var light = new THREE.PointLight(0xFFFFFF);
+light.position.set(-10, 15, 50);
+scene.add(light);
+
+var t = 0;
+function render() {
+	t += 0.01;
+	requestAnimationFrame(render);
+	torus.scale.y = Math.abs(Math.sin(t));
+	dodecahedron.position.y = -7*Math.sin(t*2);
+	renderer.render(scene, camera);
+}
+render();
+    </script>
+</body>
+</html>
